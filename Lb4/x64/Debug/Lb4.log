@@ -1,0 +1,4 @@
+﻿  task2.c
+D:\source\Lb4\task2.c(431,76): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+D:\source\Lb4\task2.c(591,82): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+  Lb4.vcxproj -> D:\source\Lb4\x64\Debug\Lb4.exe
