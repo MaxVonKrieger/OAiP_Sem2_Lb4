@@ -36,7 +36,8 @@ void DrawMenu()
     centrirovText("|                        МЕНЮ                        |");
     centrirovText("|____________________________________________________|");
     centrirovText("|                                                    |");
-    centrirovText("| 1. Найти целую часть числа с плавающей точкой      |");
+    centrirovText("| 1. Преобразовать строку из постфиксной формы       |");
+    centrirovText("|    в префиксную                                    |");
     centrirovText("| 2. Структура Работник                              |");
     centrirovText("| 3. Выход из программы                              |");
     centrirovText("|____________________________________________________|");
@@ -173,4 +174,42 @@ int intchar()
     }
     free(mas);
     return l;
+}
+
+void InsertStr(char** mas) {
+    char a;
+    int i = 0;
+    *mas = (char*)malloc(1);
+    if (*mas == NULL) {
+        printf("Ошибка выделения памяти\n");
+        exit(EXIT_FAILURE);
+    }
+
+    while (1) {
+        a = _getch();
+        if (a == '\r') break;
+        if (a == '\b') {
+            if (i > 0) {
+                i--;
+                printf("\b \b");
+                char* temp = (char*)realloc(*mas, i + 1);
+                if (temp == NULL) {
+                    printf("Ошибка перераспределения памяти\n");
+                    exit(EXIT_FAILURE);
+                }
+                *mas = temp;
+            }
+            continue;
+        }
+        printf("%c", a);
+        char* temp = (char*)realloc(*mas, i + 2);
+        if (temp == NULL) {
+            printf("Ошибка перераспределения памяти\n");
+            exit(EXIT_FAILURE);
+        }
+        *mas = temp;
+        (*mas)[i] = a;
+        i++;
+    }
+    (*mas)[i] = '\0';
 }

@@ -6,45 +6,6 @@
 #include <conio.h>
 #include <ctype.h>
 
-
-void InsertStr(char** mas) {
-    char a;
-    int i = 0;
-    *mas = (char*)malloc(1);
-    if (*mas == NULL) {
-        printf("Ошибка выделения памяти\n");
-        exit(EXIT_FAILURE);
-    }
-
-    while (1) {
-        a = _getch();
-        if (a == '\r') break;
-        if (a == '\b') {
-            if (i > 0) {
-                i--;
-                printf("\b \b");
-                char* temp = (char*)realloc(*mas, i + 1);
-                if (temp == NULL) {
-                    printf("Ошибка перераспределения памяти\n");
-                    exit(EXIT_FAILURE);
-                }
-                *mas = temp;
-            }
-            continue;
-        }
-        printf("%c", a);
-        char* temp = (char*)realloc(*mas, i + 2);
-        if (temp == NULL) {
-            printf("Ошибка перераспределения памяти\n");
-            exit(EXIT_FAILURE);
-        }
-        *mas = temp;
-        (*mas)[i] = a;
-        i++;
-    }
-    (*mas)[i] = '\0';
-}
-
 void printDate(const Date date) {
     printf("[Дата: %02d.%02d.%04d]", date.day, date.month, date.year);
 }
@@ -175,7 +136,6 @@ Worker createWorker(WorkersData* data) {
     printf("\nДата рождения работника:\n");
     result.birth_date = createDate();
 
-    // Ввод типа занятости
     printf("\nВыберите тип занятости:\n");
     printf("1. Полная занятость\n");
     printf("2. Частичная занятость\n");
@@ -221,7 +181,7 @@ Worker createWorker(WorkersData* data) {
         }
     } while (result.personnel_number <= 0 || !is_unique);
 
-    // Ввод контрактов
+    
     char add_more;
     do {
         printf("\nВвод данных контракта #%d:\n", result.contracts_count + 1);

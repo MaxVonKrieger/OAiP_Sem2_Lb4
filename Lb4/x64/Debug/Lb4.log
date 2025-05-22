@@ -1,4 +1,12 @@
-﻿  task2.c
-D:\source\Lb4\task2.c(431,76): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-D:\source\Lb4\task2.c(591,82): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+﻿  Main.c
+D:\source\Lb4\Main.c(29,13): warning C4013: StackUse: нет определения; предполагается "extern" с возвратом типа "int"
+  task1.c
+D:\source\Lb4\task1.c(43,15): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\source\Lb4\task1.c(69,62): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\source\Lb4\task1.c(100,5): warning C4013: InsertStr: нет определения; предполагается "extern" с возвратом типа "int"
+  task2.c
+D:\source\Lb4\task2.c(391,76): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+D:\source\Lb4\task2.c(551,82): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+  Создание кода...
+  LINK : не найден или не выполнена сборка D:\source\Lb4\x64\Debug\Lb4.exe при последней инкрементной компоновке; выполняется полная компоновка
   Lb4.vcxproj -> D:\source\Lb4\x64\Debug\Lb4.exe

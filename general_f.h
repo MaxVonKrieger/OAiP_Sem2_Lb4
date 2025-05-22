@@ -4,3 +4,4 @@ void centrirovText(const char* text);
 void DrawMenu();
 float floatchar();
 int intchar();
+void InsertStr(char** mas);

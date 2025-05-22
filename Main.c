@@ -13,7 +13,7 @@ int main(int argc, const char* argv[])
 {
     setlocale(LC_ALL, "RU");
     int i = 0, n = 0, vibor = 0, c = 0;
-    float k = 0;
+    char* k = NULL;
     const char* filename = argv[1];
     while (1)
     {
@@ -24,10 +24,9 @@ int main(int argc, const char* argv[])
         switch (vibor)
         {
         case 1:
-            printf("¬ведите число типа float: ");
-            k = floatchar();
-            
-            printf("÷ела€ часть числа %f равна %d\n", k, n);
+            printf("¬ведите строку в постфиксной форме: ");
+            InsertStr(&k);
+            StackUse(k);
             break;
 
         case 2:

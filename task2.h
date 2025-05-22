@@ -57,7 +57,6 @@ typedef struct {
 
 void InsertStr(char** mas);
 const char* employmentTypeToString(EmploymentType type);
-void InsertStr(char** mas);
 void printDate(const Date date);
 int compareDates(Date date1, Date date2);
 Date createDate();
