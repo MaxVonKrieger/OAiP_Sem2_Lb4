@@ -55,6 +55,7 @@ typedef struct {
     int workers_count;           // Количество работников
 } WorkersData;
 
+void freeWorkerList(WorkerNode* head);
 void InsertStr(char** mas);
 const char* employmentTypeToString(EmploymentType type);
 void printDate(const Date date);
@@ -87,3 +88,5 @@ void freeWorkersData(WorkersData* data);
 int intchar();
 float floatchar();
 void workerStruct(const char* argv);
+WorkerNode* filterWorkersByEmploymentType(WorkersData* data, EmploymentType type);
+void printWorkersByEmploymentType(WorkersData* data);

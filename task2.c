@@ -6,6 +6,15 @@
 #include <conio.h>
 #include <ctype.h>
 
+void freeWorkerList(WorkerNode* head) {
+    while (head != NULL) {
+        WorkerNode* next = head->next;
+        freeWorker(&head->worker);
+        free(head);
+        head = next;
+    }
+}
+
 void printDate(const Date date) {
     printf("[Дата: %02d.%02d.%04d]", date.day, date.month, date.year);
 }
@@ -660,6 +669,60 @@ void freeWorkersData(WorkersData* data) {
     data->workers_count = 0;
 }
 
+WorkerNode* filterWorkersByEmploymentType(WorkersData* data, EmploymentType type) {
+    WorkerNode* result_head = NULL;
+    WorkerNode* result_tail = NULL;
+
+    WorkerNode* current = data->workers_head;
+    while (current != NULL) {
+        if (current->worker.employment_type == type) {
+            // Создаем новый узел (копируем только указатели, не данные)
+            WorkerNode* new_node = (WorkerNode*)malloc(sizeof(WorkerNode));
+            new_node->worker = current->worker;  // Копируем структуру Worker
+            new_node->next = NULL;
+
+            // Копируем указатели на строки (чтобы не терять их при освобождении)
+            new_node->worker.full_name = _strdup(current->worker.full_name);
+
+            // Копируем контракты (если нужно)
+            new_node->worker.contracts_head = NULL;
+            new_node->worker.contracts_tail = NULL;
+            new_node->worker.contracts_count = 0;
+
+            ContractNode* contract_current = current->worker.contracts_head;
+            while (contract_current != NULL) {
+                ContractNode* new_contract = (ContractNode*)malloc(sizeof(ContractNode));
+                new_contract->contract = contract_current->contract;
+                new_contract->contract.position = _strdup(contract_current->contract.position);
+                new_contract->next = NULL;
+
+                if (new_node->worker.contracts_head == NULL) {
+                    new_node->worker.contracts_head = new_node->worker.contracts_tail = new_contract;
+                }
+                else {
+                    new_node->worker.contracts_tail->next = new_contract;
+                    new_node->worker.contracts_tail = new_contract;
+                }
+                new_node->worker.contracts_count++;
+
+                contract_current = contract_current->next;
+            }
+
+            // Добавляем в результирующий список
+            if (result_head == NULL) {
+                result_head = result_tail = new_node;
+            }
+            else {
+                result_tail->next = new_node;
+                result_tail = new_node;
+            }
+        }
+        current = current->next;
+    }
+
+    return result_head;
+}
+
 void printWorkersByEmploymentType(WorkersData* data) {
     if (data->workers_count == 0) {
         printf("\n=== Нет данных о работниках ===\n");
@@ -684,18 +747,19 @@ void printWorkersByEmploymentType(WorkersData* data) {
     EmploymentType selected_type = (EmploymentType)(type_choice - 1);
     const char* type_name = employmentTypeToString(selected_type);
 
+    // Получаем отфильтрованный список
+    WorkerNode* filtered_list = filterWorkersByEmploymentType(data, selected_type);
+
+    // Печатаем результаты
     printf("\n=== Список сотрудников с типом занятости: %s ===\n", type_name);
 
-    WorkerNode* current = data->workers_head;
+    WorkerNode* current = filtered_list;
     int count = 0;
-
     while (current != NULL) {
-        if (current->worker.employment_type == selected_type) {
-            printf("\n[Сотрудник #%d]\n", ++count);
-            printf("ФИО: %s\n", current->worker.full_name);
-            printf("Табельный номер: %d\n", current->worker.personnel_number);
-            printf("Количество контрактов: %d\n", current->worker.contracts_count);
-        }
+        printf("\n[Сотрудник #%d]\n", ++count);
+        printf("ФИО: %s\n", current->worker.full_name);
+        printf("Табельный номер: %d\n", current->worker.personnel_number);
+        printf("Количество контрактов: %d\n", current->worker.contracts_count);
         current = current->next;
     }
 
@@ -705,7 +769,18 @@ void printWorkersByEmploymentType(WorkersData* data) {
     else {
         printf("\n=== Найдено сотрудников: %d ===\n", count);
     }
+
+    // Освобождаем временный список
+    current = filtered_list;
+    while (current != NULL) {
+        WorkerNode* next = current->next;
+        freeWorker(&current->worker); // Используем существующую функцию очистки
+        free(current);
+        current = next;
+    }
 }
+
+
 
 void workerStruct(const char* filename) {
     int exit_submenu = 0;

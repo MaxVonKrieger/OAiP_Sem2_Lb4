@@ -101,7 +101,7 @@ int StackUse() {
     char* prefix = postfixToPrefix(postfix, &errorPos);
 
     if (prefix != NULL) {
-        printf("Строка в префиксной форме: %s\n", prefix);
+        printf("\nСтрока в префиксной форме: %s\n", prefix);
         free(prefix);
     }
     else {

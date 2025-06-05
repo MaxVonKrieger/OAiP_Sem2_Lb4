@@ -24,8 +24,6 @@ int main(int argc, const char* argv[])
         switch (vibor)
         {
         case 1:
-            printf("¬ведите строку в постфиксной форме: ");
-            InsertStr(&k);
             StackUse(k);
             break;
 
